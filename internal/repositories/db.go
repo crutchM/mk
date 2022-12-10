@@ -3,7 +3,8 @@ package repositories
 import "github.com/jmoiron/sqlx"
 
 func NewDb() (*sqlx.DB, error) {
-	db, err := sqlx.Open("sqlite3", "notes.db")
+	//с каких пор у нас не db а dba?
+	db, err := sqlx.Open("sqlite3", "notes.dba")
 	db.Exec("create table users" +
 		"(" +
 		"    id       INTEGER not null" +
@@ -23,6 +24,7 @@ func NewDb() (*sqlx.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	//зачем мы подключение закрываем? а как бдхой-то пользоваться
+	db.Close()
 	return db, nil
 }

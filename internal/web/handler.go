@@ -17,14 +17,17 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 	auth := router.Group("/auth")
 	{
-		auth.POST("/sign-in", h.signIn)
-		auth.POST("/sign-up", h.signUp)
+		//не логично не логично
+		auth.POST("/sign-in", h.signUp)
+		auth.POST("/sign-up", h.signIn)
 	}
 	api := router.Group("/notes", h.userIdentity)
 	{
 		api.GET("/", h.getNotes)
-		api.GET("/:id", h.getNote)
-		api.POST("/", h.createNote)
+		//а где метод у точки?
+		api.GET("/:id")
+		//а как мы через гет запрос запись создадим?
+		api.GET("/", h.createNote)
 	}
 	return router
 }

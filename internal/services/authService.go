@@ -31,7 +31,8 @@ func NewAuthService(repo repositories.AuthRepo) *AuthorizationService {
 
 // создать пользователя
 func (s *AuthorizationService) CreateUser(user models.User) (int, error) {
-	user.Password = generatePassword(user.Password)
+	//почему мы логин шифруем?
+	user.Login = generatePassword(user.Login)
 	return s.repo.CreateUser(user)
 }
 
