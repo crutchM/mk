@@ -17,7 +17,7 @@ func (n NotesService) GetNote(id string) (models.Note, error) {
 	return n.repo.GetNote(id)
 }
 
-func (n NotesService) GetAllNotes(userId string) ([]models.Note, error) {
+func (n NotesService) GetAllNotes(userId int) ([]models.Note, error) {
 	return n.repo.GetAllNotes(userId)
 }
 

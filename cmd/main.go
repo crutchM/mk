@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/sirupsen/logrus"
 	"mk/internal/repositories"
 	"mk/internal/services"

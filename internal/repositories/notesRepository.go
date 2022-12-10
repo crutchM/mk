@@ -14,7 +14,7 @@ type NotesRepository struct {
 func (n *NotesRepository) CreateNote(note models.Note) (string, error) {
 	var id string
 	row := n.db.QueryRow("INSERT INTO notes(id, user, title, body) values ($1,$2,$3,$4) RETURNING id",
-		note.Id, note.User, note.Title, note.Body)
+		note.Id, note.User, note.Body, note.Title)
 	if err := row.Scan(&id); err != nil {
 		return "", err
 	}
@@ -30,7 +30,7 @@ func (n *NotesRepository) GetNote(id string) (models.Note, error) {
 	return note, nil
 }
 
-func (n *NotesRepository) GetAllNotes(userId string) ([]models.Note, error) {
+func (n *NotesRepository) GetAllNotes(userId int) ([]models.Note, error) {
 	var notes []models.Note
 	if err := n.db.Select(&notes, "SELECT * FROM notes WHERE user_id=$1", userId); err != nil {
 		return nil, err

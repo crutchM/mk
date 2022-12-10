@@ -18,7 +18,7 @@ const (
 
 type tokenClaims struct {
 	jwt.StandardClaims
-	UserId string `json:"userId"`
+	UserId int `json:"userId"`
 }
 
 type AuthorizationService struct {
@@ -29,11 +29,13 @@ func NewAuthService(repo repositories.AuthRepo) *AuthorizationService {
 	return &AuthorizationService{repo: repo}
 }
 
+//создать пользователя
 func (s *AuthorizationService) CreateUser(user models.User) (string, error) {
 	user.Password = generatePassword(user.Password)
 	return s.repo.CreateUser(user)
 }
 
+//генерирует токен авторизации
 func (s *AuthorizationService) GenerateToken(username string, password string) (string, error) {
 	var user models.User
 	var err error
@@ -51,7 +53,8 @@ func (s *AuthorizationService) GenerateToken(username string, password string) (
 	return token.SignedString([]byte(signInKey))
 }
 
-func (s *AuthorizationService) ParseToken(accessToken string) (string, error) {
+//обрабатывает токен авторизации, проверяет корректность
+func (s *AuthorizationService) ParseToken(accessToken string) (int, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{},
 		func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -61,17 +64,18 @@ func (s *AuthorizationService) ParseToken(accessToken string) (string, error) {
 			return []byte(signInKey), nil
 		})
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 
 	claims, ok := token.Claims.(*tokenClaims)
 	if !ok {
-		return "", errors.New("token claims are not type *tokenClaims")
+		return 0, errors.New("token claims are not type *tokenClaims")
 	}
 
 	return claims.UserId, nil
 }
 
+//шифрует пароль
 func generatePassword(password string) string {
 	hash := sha1.New()
 	hash.Write([]byte(password))

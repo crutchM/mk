@@ -8,13 +8,13 @@ import (
 type AuthService interface {
 	CreateUser(user models.User) (string, error)
 	GenerateToken(username string, password string) (string, error)
-	ParseToken(accessToken string) (string, error)
+	ParseToken(accessToken string) (int, error)
 }
 
 type NoteService interface {
 	CreateNote(note models.InputNote) (string, error)
 	GetNote(id string) (models.Note, error)
-	GetAllNotes(userId string) ([]models.Note, error)
+	GetAllNotes(userId int) ([]models.Note, error)
 }
 
 type Service struct {

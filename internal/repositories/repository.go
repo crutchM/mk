@@ -13,7 +13,7 @@ type AuthRepo interface {
 type NotesRepo interface {
 	CreateNote(note models.Note) (string, error)
 	GetNote(id string) (models.Note, error)
-	GetAllNotes(userId string) ([]models.Note, error)
+	GetAllNotes(userId int) ([]models.Note, error)
 }
 
 type Repository struct {

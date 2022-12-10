@@ -4,13 +4,13 @@ import "github.com/google/uuid"
 
 type Note struct {
 	Id    string `json:"id" db:"id"`
-	User  string `json:"user_id" db:"user_id"`
+	User  int    `json:"user_id" db:"user_id"`
 	Title string `json:"title" db:"title"`
 	Body  string `json:"body" db:"body"`
 }
 
 type InputNote struct {
-	User  string `json:"user_id" db:"user_id"`
+	User  int    `json:"user_id" db:"user_id"`
 	Title string `json:"title" db:"title"`
 	Body  string `json:"body" db:"body"`
 }

@@ -1,8 +1,10 @@
 package web
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -33,4 +35,18 @@ func (h *Handler) userIdentity(c *gin.Context) {
 	}
 
 	c.Set("userId", userId)
+}
+
+func getUserId(c *gin.Context) (int, error) {
+	id, ok := c.Get("userId")
+	if !ok {
+		newErrorResponse(c, http.StatusInternalServerError, "user id not found")
+		return 0, errors.New("user id not found")
+	}
+	userId, err := strconv.Atoi(id.(string))
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, "invalid type of id")
+		return 0, errors.New("user id not found")
+	}
+	return userId, nil
 }
