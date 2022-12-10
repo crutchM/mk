@@ -6,7 +6,7 @@ import (
 )
 
 type AuthService interface {
-	CreateUser(user models.User) (string, error)
+	CreateUser(user models.User) (int, error)
 	GenerateToken(username string, password string) (string, error)
 	ParseToken(accessToken string) (int, error)
 }

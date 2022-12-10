@@ -6,7 +6,7 @@ import (
 )
 
 type AuthRepo interface {
-	CreateUser(user models.User) (string, error)
+	CreateUser(user models.User) (int, error)
 	GetUser(login, password string) (models.User, error)
 }
 

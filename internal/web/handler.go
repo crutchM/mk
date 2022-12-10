@@ -22,9 +22,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	}
 	api := router.Group("/notes", h.userIdentity)
 	{
-		api.GET("/")
-		api.GET("/:id")
-		api.POST("/")
+		api.GET("/", h.getNotes)
+		api.GET("/:id", h.getNote)
+		api.POST("/", h.createNote)
 	}
 	return router
 }

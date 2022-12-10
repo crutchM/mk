@@ -13,7 +13,7 @@ type NotesRepository struct {
 
 func (n *NotesRepository) CreateNote(note models.Note) (string, error) {
 	var id string
-	row := n.db.QueryRow("INSERT INTO notes(id, user, title, body) values ($1,$2,$3,$4) RETURNING id",
+	row := n.db.QueryRow("INSERT INTO notes(id, user_id, title, body) values ($1,$2,$3,$4) RETURNING id",
 		note.Id, note.User, note.Body, note.Title)
 	if err := row.Scan(&id); err != nil {
 		return "", err

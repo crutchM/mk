@@ -29,13 +29,13 @@ func NewAuthService(repo repositories.AuthRepo) *AuthorizationService {
 	return &AuthorizationService{repo: repo}
 }
 
-//создать пользователя
-func (s *AuthorizationService) CreateUser(user models.User) (string, error) {
+// создать пользователя
+func (s *AuthorizationService) CreateUser(user models.User) (int, error) {
 	user.Password = generatePassword(user.Password)
 	return s.repo.CreateUser(user)
 }
 
-//генерирует токен авторизации
+// генерирует токен авторизации
 func (s *AuthorizationService) GenerateToken(username string, password string) (string, error) {
 	var user models.User
 	var err error
@@ -53,7 +53,7 @@ func (s *AuthorizationService) GenerateToken(username string, password string) (
 	return token.SignedString([]byte(signInKey))
 }
 
-//обрабатывает токен авторизации, проверяет корректность
+// обрабатывает токен авторизации, проверяет корректность
 func (s *AuthorizationService) ParseToken(accessToken string) (int, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{},
 		func(token *jwt.Token) (interface{}, error) {
@@ -75,7 +75,7 @@ func (s *AuthorizationService) ParseToken(accessToken string) (int, error) {
 	return claims.UserId, nil
 }
 
-//шифрует пароль
+// шифрует пароль
 func generatePassword(password string) string {
 	hash := sha1.New()
 	hash.Write([]byte(password))
